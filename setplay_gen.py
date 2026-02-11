@@ -1,4 +1,6 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
@@ -6,6 +8,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import time
+
+
 
 
 def open_URL_spit_songs(url):
@@ -17,18 +21,17 @@ def open_URL_spit_songs(url):
     time.sleep(3)  # wait for the JS to load
 
     soup = BeautifulSoup(driver.page_source, "html.parser")
+    artist = soup.find("meta", property="qc:artist")
     driver.quit()
 
     songs = [li.get_text(strip=True).removesuffix('Play Video') for li in soup.select("li.setlistParts.song")]
 
-    # Load environment variables from .env
-    load_dotenv()
-    return songs 
+    return artist["content"],songs 
 
 def create_playlist(info,playlist_name):
     
     scope = "playlist-modify-private"
-
+    # print(os.getenv("SPOTIPY_CLIENT_ID"))
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
         client_id=os.getenv("SPOTIPY_CLIENT_ID"),
         client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
@@ -69,15 +72,28 @@ def create_playlist(info,playlist_name):
 
 # url = "https://www.setlist.fm/setlist/the-plot-in-you/2025/poppodium-013-tilburg-netherlands-3358a08d.html"
 
-n_bands = input("How many bands? ")
+print("Hello! Welcome to setplaylist! \n \n Start by entering the playlist's name, then enter the setlist's URL. \n \n When you're finished, type END.")
 info = {}
 playlist_name = input("Enter playlist name: ")
-for n in range(int(n_bands)):
-    a = input(f"Enter artist {n+1} name: ")
-    u = input(f"Enter artist {n+1} URL: ")
+
+
+
+while True:
+    u = input(f"Enter artist URL or END to finish creating: ")
+    if u.upper() == "END":
+        break
+    if not (u.startswith("http://") or u.startswith("https://")):
+        print("Invalid URL (must start with http:// or https://)")
+        continue
+    a, s = open_URL_spit_songs(u)
+    info[a] = {'url':u, 'setlist': s}
     
-    info[a] = {'url':u, 'setlist': open_URL_spit_songs(u)}
     
+    
+    
+    
+    
+print("Great! Creating your setplaylist...")
 
 create_playlist(info,playlist_name)
 
