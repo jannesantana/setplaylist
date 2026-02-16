@@ -8,11 +8,13 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import time
+from user_widget import get_playlist_input
 
 
 
 
-def open_URL_spit_songs(url):
+
+def open_URL_spit_songs(url): 
     options = Options()
     options.add_argument("--headless")
     driver = webdriver.Chrome(options=options)
@@ -72,21 +74,35 @@ def create_playlist(info,playlist_name):
 
 # url = "https://www.setlist.fm/setlist/the-plot-in-you/2025/poppodium-013-tilburg-netherlands-3358a08d.html"
 
-print("Hello! Welcome to setplaylist! \n \n Start by entering the playlist's name, then enter the setlist's URL. \n \n When you're finished, type END.")
+# print("Hello! Welcome to setplaylist! \n \n Start by entering the playlist's name, then enter the setlist's URL. \n \n When you're finished, type END.")
+
 info = {}
-playlist_name = input("Enter playlist name: ")
+playlist_name, urls = get_playlist_input()
 
+if playlist_name is None:
+    print("User cancelled.")
+# else:
+#     print("playlist name =", playlist_name)
+#     print("urls =", urls)
+# playlist_name = input("Enter playlist name: ")
 
-
-while True:
-    u = input(f"Enter artist URL or END to finish creating: ")
-    if u.upper() == "END":
-        break
+for u in urls:
     if not (u.startswith("http://") or u.startswith("https://")):
         print("Invalid URL (must start with http:// or https://)")
         continue
-    a, s = open_URL_spit_songs(u)
+    a,s = open_URL_spit_songs(u)
     info[a] = {'url':u, 'setlist': s}
+    
+
+# while True:
+#     u = input(f"Enter artist URL or END to finish creating: ")
+#     if u.upper() == "END":
+#         break
+#     if not (u.startswith("http://") or u.startswith("https://")):
+#         print("Invalid URL (must start with http:// or https://)")
+#         continue
+#     a, s = open_URL_spit_songs(u)
+#     info[a] = {'url':u, 'setlist': s}
     
     
     
