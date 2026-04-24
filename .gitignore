@@ -1,0 +1,19 @@
+# environment variables
+.env
+
+# virtual environment
+venv/
+.env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# system files
+.DS_Store
+
+# logs
+*.log
+
+# this weird cache
+.cache-4fcbb9d883b54f4e805104b39ebdeb11

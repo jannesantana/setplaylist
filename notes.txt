@@ -1,0 +1,20 @@
+
+* Create reusable modules * 
+
+project/
+│── app/
+│   ├── services/
+│   │   ├── setlist_service.py
+│   │   ├── spotify_service.py
+│   │   └── matching_service.py
+│   ├── api/
+│   │   └── routes.py
+│   ├── models/
+│   │   └── schemas.py
+│   └── main.py
+│── requirements.txt
+
+[] properly commment scripts to understand what they do and how to split tasks
+[] make components that focus on one task and one task only
+
+source venv_sp/bin/activate  
