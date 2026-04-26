@@ -8,7 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import time
-from user_widget import get_playlist_input
+from user_widget_service import get_playlist_input
 from webscraping_service import open_URL_spit_songs
 
 

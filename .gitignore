@@ -17,3 +17,9 @@ __pycache__/
 
 # this weird cache
 .cache-4fcbb9d883b54f4e805104b39ebdeb11
+
+#notes
+notes.txt
+
+# filter
+git-filter-repo
