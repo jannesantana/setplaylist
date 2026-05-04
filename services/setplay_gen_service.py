@@ -33,13 +33,13 @@ def create_playlist(info,playlist_name):
     # ---- spotify autentication --- #
     
     scope = "playlist-modify-private"
-    # print(os.getenv("SPOTIPY_CLIENT_ID"))
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
         client_id=os.getenv("SPOTIPY_CLIENT_ID"),
         client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
         redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI"),
         scope=scope,
         cache_path=".cache-" + os.getenv("SPOTIPY_CLIENT_ID")
+        
     ))
     # Check if authenticated
     user = sp.current_user()
@@ -72,29 +72,6 @@ def create_playlist(info,playlist_name):
     print(f"\n🎵 Done! Songs added to playlist: {playlist_name}")
     return None
     
-
-
-
-info = {}
-playlist_name, urls = get_playlist_input() # uses the widget script and picks up the urls and the playlist name 
-
-if playlist_name is None:
-    print("User cancelled.")
-
-
-for u in urls:
-    if not (u.startswith("http://") or u.startswith("https://")):
-        print("Invalid URL (must start with http:// or https://)")
-        continue
-    a,s = open_URL_spit_songs(u) # opens the urls and picks up the artist name and the list with the songs
-    info[a] = {'url':u, 'setlist': s}
-    
-
-    
-    
-print("Great! Creating your setplaylist...")
-
-create_playlist(info,playlist_name) 
 
 
 
